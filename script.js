@@ -26,7 +26,7 @@ const satIcon = document.getElementById("sat-icon");
 const sunIcon = document.getElementById("sun-icon");
 
 
-//--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= ignore just for debuging ;)
+//--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= ignore just for testing ;)
 // console.log({
 //   searchForm,
 //   searchInput,
@@ -95,7 +95,7 @@ function getWeatherByCity(city) {
                 fetchWeather(lat, lon);
                 fetchWeatherData(lat, lon); // update chart too
 
-                cityName.textContent = data.results[0].name; // <-- now works
+                cityName.textContent = data.results[0].name; // update city name immediately 
             }
             else {
                 alert("City not found!");
@@ -166,53 +166,71 @@ async function fetchWeather(lat, lon) {
 
 // --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Integrating charts in the project =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(fetchWeatherData);
 
 function fetchWeatherData(lat, lon) {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,precipitation,wind_speed_10m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min,weathercode,sunrise,sunset&timezone=auto`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m&forecast_days=1`;
 
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      const chartData = [
-        ['Day', 'Temperature'],
-        ['Mon', data.daily.temperature_2m_max[0]],
-        ['Tue', data.daily.temperature_2m_max[1]],
-        ['Wed', data.daily.temperature_2m_max[2]],
-        ['Thu', data.daily.temperature_2m_max[3]],
-        ['Fri', data.daily.temperature_2m_max[4]],
-        ['Sat', data.daily.temperature_2m_max[5]],
-        ['Sun', data.daily.temperature_2m_max[6]],
-      ];
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+              const chartData = ([
+                ['Time', 'Temperature'],
+                ['00:00', data.hourly.temperature_2m[0]],
+                ['01:00', data.hourly.temperature_2m[1]],
+                ['02:00', data.hourly.temperature_2m[2]],
+                ['03:00', data.hourly.temperature_2m[3]],
+                ['04:00', data.hourly.temperature_2m[4]],
+                ['05:00', data.hourly.temperature_2m[5]],
+                ['06:00', data.hourly.temperature_2m[6]],
+                ['07:00', data.hourly.temperature_2m[7]],
+                ['08:00', data.hourly.temperature_2m[8]],
+                ['09:00', data.hourly.temperature_2m[9]],
+                ['10:00', data.hourly.temperature_2m[10]],
+                ['11:00', data.hourly.temperature_2m[11]],
+                ['12:00', data.hourly.temperature_2m[12]],
+                ['13:00', data.hourly.temperature_2m[13]],
+                ['14:00', data.hourly.temperature_2m[14]],
+                ['15:00', data.hourly.temperature_2m[15]],
+                ['16:00', data.hourly.temperature_2m[16]],
+                ['17:00', data.hourly.temperature_2m[17]],
+                ['18:00', data.hourly.temperature_2m[18]],
+                ['19:00', data.hourly.temperature_2m[19]],
+                ['20:00', data.hourly.temperature_2m[20]],
+                ['21:00', data.hourly.temperature_2m[21]],
+                ['22:00', data.hourly.temperature_2m[22]],
+                ['23:00', data.hourly.temperature_2m[23]],
+              ]);
 
-      drawChart(chartData);
-    })
-    .catch(err => console.error("Error fetching chart data:", err));
+
+            drawChart(chartData);
+        })
+        .catch(err => console.error("Error fetching chart data:", err));
 }
 
 
 // separate function (not nested inside fetchWeatherData)
 function drawChart(chartData) {
-  var data = google.visualization.arrayToDataTable(chartData);
+    var data = google.visualization.arrayToDataTable(chartData);
 
-  var options = {
-    title: 'Weekly Temperature Forecast',
-    legend: { position: 'bottom' },
-    colors: ['#42a5f5']
-  };
+    var options = {
+        title: 'Todays Temperature Forecast',
+        legend: { position: 'bottom' },
+        colors: ['#42a5f5']
+    };
 
-  var chart = new google.visualization.LineChart(document.getElementById('hourlyChart'));
-  chart.draw(data, options);
+    var chart = new google.visualization.LineChart(document.getElementById('hourlyChart'));
+    chart.draw(data, options);
 }
 
 
 
+// ---------- Event Listener for Search Form ----------
 searchForm.addEventListener("submit", function (e) {
     e.preventDefault();
     const query = searchInput.value.trim();
     if (query) {
         getWeatherByCity(query);
     }
-
 });

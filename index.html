@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather App</title>
+  
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  
   <div class="main">
     <div class="left">
       <div class="nav">
@@ -99,13 +100,13 @@
           <div class="today_wed">
             <h3>Today's Hourly Forecast</h3>
           </div>
-          <canvas id="hourlyChart">
+          <div class = "hourlyChart" id="hourlyChart">
 
-            <!--chart should be here-->
-
-          </canvas>
-
+            <!-- Chart will be rendered here by script.js -->
+          
+          </div>
         </div>
+      
       </div>
 
     </div>
@@ -142,6 +143,7 @@
   </div>
 
   <script src="script.js"></script>
+   
 </body>
 
 </html>
