@@ -72,6 +72,7 @@ function getCurrentLocationWeather() {
         let lat = position.coords.latitude;
         let lon = position.coords.longitude;
         fetchWeather(lat, lon);
+        fetchWeatherData(lat, lon);
         fetchCity(lat, lon);
     }
 
@@ -81,8 +82,8 @@ function getCurrentLocationWeather() {
 }
 
 // Search by city name
-function getWeatherByCity(cityName) {
-    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=1`;
+function getWeatherByCity(city) {
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`;
 
     fetch(geoUrl)
         .then(res => res.json())
@@ -90,9 +91,11 @@ function getWeatherByCity(cityName) {
             if (data.results && data.results.length > 0) {
                 let lat = data.results[0].latitude;
                 let lon = data.results[0].longitude;
-                fetchWeather(lat, lon);
 
-                cityName.textContent = data.results[0].name;
+                fetchWeather(lat, lon);
+                fetchWeatherData(lat, lon); // update chart too
+
+                cityName.textContent = data.results[0].name; // <-- now works
             }
             else {
                 alert("City not found!");
@@ -100,6 +103,7 @@ function getWeatherByCity(cityName) {
         })
         .catch(err => console.error("Error fetching city:", err));
 }
+
 
 getCurrentLocationWeather();
 
@@ -121,16 +125,16 @@ function fetchCity(lat, lon) {
 
 
 function getWeatherIcon(code) {
-    if ([0].includes(code)) return "weather-sunny.svg";
-    if ([1, 2].includes(code)) return "weather-partly-cloudy.svg";
-    if ([3].includes(code)) return "weather-cloudy.svg";
-    if ([45, 48].includes(code)) return "weather-fog.svg";
-    if ([51, 61, 80].includes(code)) return "weather-rain.svg";
-    if ([63, 65, 81, 82].includes(code)) return "weather-heavy-rain.svg";
-    if ([71, 73, 75].includes(code)) return "weather-snow.svg";
-    if ([95, 96, 99].includes(code)) return "weather-thunder.svg";
+    if ([0].includes(code)) return "resourses/weather-sunny.svg";
+    if ([1, 2].includes(code)) return "resourses/weather-partly-cloudy.svg";
+    if ([3].includes(code)) return "resourses/weather-cloudy.svg";
+    if ([45, 48].includes(code)) return "resourses/weather-fog.svg";
+    if ([51, 61, 80].includes(code)) return "resourses/weather-rain.svg";
+    if ([63, 65, 81, 82].includes(code)) return "resourses/weather-heavy-rain.svg";
+    if ([71, 73, 75].includes(code)) return "resourses/weather-snow.svg";
+    if ([95, 96, 99].includes(code)) return "resourses/weather-thunder.svg";
 
-    return "weather-unknown.svg";
+    return "resourses/weather-unknown.svg";
 }
 
 async function fetchWeather(lat, lon) {
@@ -160,4 +164,55 @@ async function fetchWeather(lat, lon) {
 }
 
 
+// --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Integrating charts in the project =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(fetchWeatherData);
+
+function fetchWeatherData(lat, lon) {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,precipitation,wind_speed_10m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min,weathercode,sunrise,sunset&timezone=auto`;
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      const chartData = [
+        ['Day', 'Temperature'],
+        ['Mon', data.daily.temperature_2m_max[0]],
+        ['Tue', data.daily.temperature_2m_max[1]],
+        ['Wed', data.daily.temperature_2m_max[2]],
+        ['Thu', data.daily.temperature_2m_max[3]],
+        ['Fri', data.daily.temperature_2m_max[4]],
+        ['Sat', data.daily.temperature_2m_max[5]],
+        ['Sun', data.daily.temperature_2m_max[6]],
+      ];
+
+      drawChart(chartData);
+    })
+    .catch(err => console.error("Error fetching chart data:", err));
+}
+
+
+// separate function (not nested inside fetchWeatherData)
+function drawChart(chartData) {
+  var data = google.visualization.arrayToDataTable(chartData);
+
+  var options = {
+    title: 'Weekly Temperature Forecast',
+    legend: { position: 'bottom' },
+    colors: ['#42a5f5']
+  };
+
+  var chart = new google.visualization.LineChart(document.getElementById('hourlyChart'));
+  chart.draw(data, options);
+}
+
+
+
+searchForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const query = searchInput.value.trim();
+    if (query) {
+        getWeatherByCity(query);
+    }
+
+});
