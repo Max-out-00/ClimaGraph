@@ -217,7 +217,9 @@ function drawChart(chartData) {
     var options = {
         title: 'Todays Temperature Forecast',
         legend: { position: 'bottom' },
-        colors: ['#42a5f5']
+        colors: ['#42a5f5'],
+        backgroundColor: '#769cf4ff',
+   
     };
 
     var chart = new google.visualization.LineChart(document.getElementById('hourlyChart'));
