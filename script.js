@@ -210,7 +210,6 @@ function fetchWeatherData(lat, lon) {
 }
 
 
-// separate function (not nested inside fetchWeatherData)
 function drawChart(chartData) {
     var data = google.visualization.arrayToDataTable(chartData);
 
