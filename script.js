@@ -221,7 +221,7 @@ function drawChart(chartData) {
    
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('hourlyChart'));
+    var chart = new google.visualization.ColumnChart(document.getElementById('hourlyChart'));
     chart.draw(data, options);
 }
 
