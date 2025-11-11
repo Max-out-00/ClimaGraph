@@ -235,3 +235,56 @@ searchForm.addEventListener("submit", function (e) {
         getWeatherByCity(query);
     }
 });
+// ===== Chatbot Logic =====
+const chatbotContainer = document.getElementById('chatbot');
+const chatbotBtn = document.getElementById('chatbot-btn');
+const closeChat = document.getElementById('close-chat');
+const sendBtn = document.getElementById('send-btn');
+const messagesDiv = document.getElementById('chatbot-messages');
+const input = document.getElementById('chatbot-input');
+
+// Show chatbot when sidebar "Chatbot" clicked
+chatbotBtn.addEventListener('click', () => {
+  chatbotContainer.style.display = 'flex';
+});
+
+// Close chatbot
+closeChat.addEventListener('click', () => {
+  chatbotContainer.style.display = 'none';
+});
+
+// Send message
+sendBtn.addEventListener('click', sendMessage);
+input.addEventListener('keypress', e => {
+  if (e.key === 'Enter') sendMessage();
+});
+
+function sendMessage() {
+  const userMsg = input.value.trim();
+  if (userMsg === '') return;
+  displayMessage(userMsg, 'user-message');
+  input.value = '';
+  setTimeout(() => {
+    const reply = getBotReply(userMsg);
+    displayMessage(reply, 'bot-message');
+  }, 500);
+}
+
+function displayMessage(msg, className) {
+  const div = document.createElement('div');
+  div.className = className;
+  div.textContent = msg;
+  messagesDiv.appendChild(div);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function getBotReply(input) {
+  input = input.toLowerCase();
+  if (input.includes('hi') || input.includes('hello'))
+    return 'Hello! 😊 How can I help you today?';
+  if (input.includes('weather'))
+    return 'Please enter your city name to get today’s weather forecast 🌤️';
+  if (input.includes('bye'))
+    return 'Goodbye! Stay safe and check the weather before going out!';
+  return 'Sorry, I didn’t understand that. Try saying "weather" or "hi".';
+}
