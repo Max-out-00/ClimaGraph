@@ -12,20 +12,21 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 /* Main Layout */
 .main {
     display: flex;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
+    flex-direction: row;
 }
 
 /* Left Sidebar */
 .left {
     width: 10%;
-    height: 100%;
+    min-height: 100%;
     background-color: #1e1e24;
     display: flex;
     justify-content: center;
@@ -268,6 +269,7 @@ form button:hover {
     background-color: #2a2f3b;
     border-radius: 20px;
 }
+<<<<<<< HEAD
 /* ===== Chatbot Styles ===== */
 
 #chatbot-toggle {
@@ -419,3 +421,297 @@ form button:hover {
   margin: 5px 0;
   color: #fff;
 }
+=======
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablets and smaller screens (768px and below) */
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+    }
+
+    .left {
+        width: 100%;
+        height: auto;
+        border-bottom: 2px solid #31313a;
+    }
+
+    .nav ul {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+        padding: 10px 0;
+    }
+
+    .logo img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .center {
+        flex: 1;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .right {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: center;
+        padding: 20px;
+        gap: 10px;
+        flex-wrap: wrap;
+        border-top: 2px solid #31313a;
+    }
+
+    .right h2 {
+        width: 100%;
+        text-align: center;
+    }
+
+    .right ul {
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        max-height: none;
+        width: auto;
+        flex-wrap: wrap;
+    }
+
+    .first_block {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .city {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .weather-list {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .vertical-divider {
+        width: 50px;
+        height: 2px;
+    }
+
+    .details-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .search {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    form button {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    .city h2 {
+        font-size: 1.5rem;
+    }
+
+    .city h3 {
+        font-size: 1rem;
+    }
+
+    .hourlyChart {
+        height: 300px;
+    }
+
+    form {
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+}
+
+/* Mobile phones (480px and below) */
+@media (max-width: 480px) {
+    .main {
+        flex-direction: column;
+    }
+
+    .left {
+        width: 100%;
+        height: auto;
+        padding: 5px 0;
+    }
+
+    .nav ul {
+        flex-direction: row;
+        gap: 10px;
+        padding: 5px;
+        justify-content: space-around;
+    }
+
+    .nav li a {
+        font-size: 12px;
+    }
+
+    .logo img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .center {
+        flex: 1;
+        padding: 10px;
+        gap: 10px;
+        border: none;
+    }
+
+    .center {
+        border-left: none;
+        border-right: none;
+    }
+
+    .right {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: center;
+        padding: 15px 5px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .right h2 {
+        width: 100%;
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    .right ul {
+        gap: 8px;
+        width: 100%;
+    }
+
+    .right ul li img {
+        width: 25px;
+    }
+
+    .box {
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .first_block {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .city {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .city img {
+        width: 50px;
+    }
+
+    .city h2 {
+        font-size: 1.3rem;
+    }
+
+    .city h3 {
+        font-size: 0.9rem;
+    }
+
+    .weather {
+        font-size: 1rem;
+    }
+
+    .weather-list {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .weather-item {
+        gap: 5px;
+    }
+
+    .weather-item img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .vertical-divider {
+        width: 40px;
+        height: 2px;
+        margin: 5px 0;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .detail-item {
+        padding: 12px;
+    }
+
+    .search {
+        font-size: 12px;
+        padding: 8px 12px;
+        flex: 1;
+    }
+
+    form button {
+        padding: 8px 12px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    form {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .hourlyChart {
+        height: 200px;
+    }
+
+    .graph canvas {
+        height: 200px !important;
+    }
+
+    .today_wed h3 {
+        font-size: 1rem;
+    }
+
+    .today_wed h2 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Large screens (1024px and above) */
+@media (min-width: 1024px) {
+    .main {
+        flex-direction: row;
+    }
+
+    .left {
+        width: 10%;
+    }
+
+    .center {
+        flex: 1;
+    }
+
+    .right {
+        width: 10%;
+    }
+}
+
+>>>>>>> ba04d883fb82684b6469ab42abd7402af86eea2a
