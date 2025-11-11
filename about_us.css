@@ -98,3 +98,136 @@ footer {
 .nav li a:hover {
     color: #a5b4fc;
 }
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+    header {
+        padding: 20px 10px;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+
+    header p {
+        font-size: 1em;
+    }
+
+    .team {
+        gap: 30px;
+        padding: 30px 15px;
+    }
+
+    .member {
+        width: 200px;
+        padding: 15px;
+    }
+
+    .member img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .member h2 {
+        font-size: 1.1em;
+    }
+
+    .nav ul {
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .nav li a {
+        font-size: 14px;
+    }
+}
+
+/* Mobile phones (480px and below) */
+@media (max-width: 480px) {
+    body {
+        padding: 0 10px;
+    }
+
+    header {
+        padding: 15px 5px;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    header p {
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+
+    .team {
+        gap: 20px;
+        padding: 20px 10px;
+        justify-content: center;
+    }
+
+    .member {
+        width: 150px;
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+    .member img {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+
+    .member h2 {
+        font-size: 0.95em;
+        margin: 3px 0;
+    }
+
+    .member h3 {
+        font-size: 0.85em;
+    }
+
+    .role {
+        font-size: 0.8em;
+    }
+
+    footer {
+        padding: 10px 5px;
+        font-size: 0.8em;
+        margin-top: 20px;
+    }
+
+    .nav {
+        gap: 15px;
+    }
+
+    .nav ul {
+        gap: 10px;
+        justify-content: space-around;
+        padding: 5px;
+    }
+
+    .nav li a {
+        font-size: 12px;
+    }
+
+    .logo img {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Large screens (1024px and above) */
+@media (min-width: 1024px) {
+    .team {
+        gap: 50px;
+        padding: 60px 40px;
+    }
+
+    .member {
+        width: 280px;
+    }
+}
