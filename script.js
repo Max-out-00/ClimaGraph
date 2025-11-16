@@ -235,7 +235,15 @@ searchForm.addEventListener("submit", function (e) {
         getWeatherByCity(query);
     }
 });
-// ===== Chatbot Logic =====
+
+
+
+// ===== GEMINI CHATBOT (Client-side) =====
+import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI("AIzaSyAwFvTeNKFGAx-KuuMj4x6jbGlFAhQZHOw");  // <-- PUT YOUR KEY HERE
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
 const chatbotContainer = document.getElementById('chatbot');
 const chatbotBtn = document.getElementById('chatbot-btn');
 const closeChat = document.getElementById('close-chat');
@@ -243,48 +251,40 @@ const sendBtn = document.getElementById('send-btn');
 const messagesDiv = document.getElementById('chatbot-messages');
 const input = document.getElementById('chatbot-input');
 
-// Show chatbot when sidebar "Chatbot" clicked
-chatbotBtn.addEventListener('click', () => {
-  chatbotContainer.style.display = 'flex';
-});
+if (chatbotBtn) chatbotBtn.addEventListener('click', () => chatbotContainer.style.display = 'flex');
+if (closeChat) closeChat.addEventListener('click', () => chatbotContainer.style.display = 'none');
+if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+if (input) input.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
 
-// Close chatbot
-closeChat.addEventListener('click', () => {
-  chatbotContainer.style.display = 'none';
-});
+async function sendMessage() {
+    let userMsg = input.value.trim();
+    if (!userMsg) return;
 
-// Send message
-sendBtn.addEventListener('click', sendMessage);
-input.addEventListener('keypress', e => {
-  if (e.key === 'Enter') sendMessage();
-});
+    displayMessage(userMsg, 'user-message');
+    input.value = '';
 
-function sendMessage() {
-  const userMsg = input.value.trim();
-  if (userMsg === '') return;
-  displayMessage(userMsg, 'user-message');
-  input.value = '';
-  setTimeout(() => {
-    const reply = getBotReply(userMsg);
-    displayMessage(reply, 'bot-message');
-  }, 500);
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'bot-message typing';
+    typingDiv.textContent = 'Thinking...';
+    messagesDiv.appendChild(typingDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+    try {
+        const result = await model.generateContent(userMsg);
+        let aiReply = result.response.text();
+
+        typingDiv.textContent = aiReply;
+    } catch (err) {
+        typingDiv.textContent = "❌ Error: Unable to reach AI.";
+        console.error(err);
+    }
 }
 
 function displayMessage(msg, className) {
-  const div = document.createElement('div');
-  div.className = className;
-  div.textContent = msg;
-  messagesDiv.appendChild(div);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    const div = document.createElement('div');
+    div.className = className;
+    div.textContent = msg;
+    messagesDiv.appendChild(div);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
-function getBotReply(input) {
-  input = input.toLowerCase();
-  if (input.includes('hi') || input.includes('hello'))
-    return 'Hello! 😊 How can I help you today?';
-  if (input.includes('weather'))
-    return 'Please enter your city name to get today’s weather forecast 🌤️';
-  if (input.includes('bye'))
-    return 'Goodbye! Stay safe and check the weather before going out!';
-  return 'Sorry, I didn’t understand that. Try saying "weather" or "hi".';
-}
