@@ -241,7 +241,7 @@ searchForm.addEventListener("submit", function (e) {
 // ===== GEMINI CHATBOT (Client-side) =====
 import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI("AIzaSyAwFvTeNKFGAx-KuuMj4x6jbGlFAhQZHOw");  // <-- PUT YOUR KEY HERE
+const genAI = new GoogleGenerativeAI("");  // <-- PUT YOUR KEY HERE
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 const chatbotContainer = document.getElementById('chatbot');
